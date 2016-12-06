@@ -1,3 +1,9 @@
+#include "db.h"
+
+int main(){
+	return -1;
+}
+/*
 int create()
 {
 
@@ -12,3 +18,4 @@ void select()
 {
 
 }
+*/

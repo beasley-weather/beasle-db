@@ -1,6 +1,6 @@
 CC = gcc
 LIB_SQLITE = -l sqlite3
-
+LIB_SQLITE_PATH = -L /usr/lib/i386-linux-gnu/
 
 DB_EXEC     = db
 CREATE_EXEC = db_create
@@ -15,16 +15,16 @@ SELECT_C    = $(SELECT_EXEC).c
 
 
 db: create insert select
-	$(CC) $(DB_C) -o $(DB_EXEC)
+	$(CC) $(DB_C) -o $(DB_EXEC) $(LIB_SQLITE_PATH) $(LIB_SQLITE) 
 
 create:
-	$(CC) $(LIB_SQLITE) $(CREATE_C) -o $(CREATE_EXEC)
+	$(CC) $(CREATE_C) -o $(CREATE_EXEC) $(LIB_SQLITE_PATH) $(LIB_SQLITE) 
 
 insert:
-	$(CC) $(LIB_SQLITE) $(INSERT_C) -o $(INSERT_EXEC)
+	$(CC) $(INSERT_C) -o $(INSERT_EXEC) $(LIB_SQLITE_PATH) $(LIB_SQLITE)
 
 select:
-	$(CC) $(LIB_SQLITE) $(SELECT_C) -o $(SELECT_EXEC)
+	$(CC) $(SELECT_C) -o $(SELECT_EXEC) $(LIB_SQLITE_PATH) $(LIB_SQLITE)
 
 clean:
 	rm -f $(EXECS)
