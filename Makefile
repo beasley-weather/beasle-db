@@ -2,20 +2,25 @@ CC = gcc
 LIB_SQLITE = -l sqlite3
 
 
-DB_EXEC     = db
-CREATE_EXEC = db_create
-INSERT_EXEC = db_insert
-SELECT_EXEC = db_select
+BIN			= bin/
+SRC			= src/
+
+DB_EXEC     = $(BIN)db
+CREATE_EXEC = $(BIN)db_create
+INSERT_EXEC = $(BIN)db_insert
+SELECT_EXEC = $(BIN)db_select
 EXECS       = $(DB_EXEC) $(CREATE_EXEC) $(INSERT_EXEC) $(SELECT_EXEC)
 
-DB_C        = $(DB_EXEC).c
-CREATE_C    = $(CREATE_EXEC).c
-INSERT_C    = $(INSERT_EXEC).c
-SELECT_C    = $(SELECT_EXEC).c
+DB_C        = $(SRC)db.c
+CREATE_C    = $(SRC)db_create.c
+INSERT_C    = $(SRC)db_insert.c
+SELECT_C    = $(SRC)db_select.c
 
 
-db: create insert select
-	$(CC) $(DB_C) -o $(DB_EXEC)
+all: bin_dir create insert select
+
+bin_dir:
+	mkdir -p $(BIN)
 
 create:
 	$(CC) $(LIB_SQLITE) $(CREATE_C) -o $(CREATE_EXEC)
@@ -28,3 +33,4 @@ select:
 
 clean:
 	rm -f $(EXECS)
+	rmdir $(BIN)
