@@ -1,14 +1,14 @@
-int create()
+int db_create()
 {
 
 }
 
-int insert()
+int db_insert()
 {
 
 }
 
-void select()
+void db_select()
 {
 
 }

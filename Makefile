@@ -33,4 +33,5 @@ select:
 
 clean:
 	rm -f $(EXECS)
-	rmdir $(BIN)
+	rm -f $(BIN)*.db
+	rmdir -p $(BIN)

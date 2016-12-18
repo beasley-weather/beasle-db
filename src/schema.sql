@@ -1,4 +1,5 @@
-CREATE TABLE Users (
+CREATE TABLE Users
+(
     username TEXT PRIMARY KEY,
     pin TEXT NOT NULL,
     name_first TEXT NOT NULL,
@@ -7,7 +8,8 @@ CREATE TABLE Users (
     home_lat REAL NOT NULL
 );
 
-CREATE TABLE Weather_Data (
+CREATE TABLE Weather_Data
+(
     username TEXT FOREIGN KEY REFERENCES Users(username),
     time DATETIME, NOT NULL
     data_long REAL,
