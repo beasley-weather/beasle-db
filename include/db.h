@@ -11,7 +11,7 @@ struct db_user_entry
            home_lat;
 };
 
-struct db_weahther_data_entry
+struct db_weather_data_entry
 {
     char *username,
            *time;
@@ -31,8 +31,9 @@ struct db_weahther_data_entry
  *   -1     Failed to open database
  *   -2     Failed to execute schema
  */
-int db_create();
+int db_create(char *db_name, char *schema_file);
 
-int db_insert();
+int db_insert_user_entry(char* db_name, struct db_user_entry[]);
+int db_insert_weather_data_entry(char* db_name, struct db_weather_data_entry[]);
 
-void db_select();
+char* db_select(char* db_name, char* table, char* attributes)
