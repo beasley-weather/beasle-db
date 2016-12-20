@@ -25,6 +25,14 @@ struct db_weahther_data_entry
 };
 
 
+/*
+ * Return codes:
+ *    0     Success
+ *   -1     Failed to open database
+ *   -2     Failed to execute schema
+ */
 int db_create();
+
 int db_insert();
+
 void db_select();

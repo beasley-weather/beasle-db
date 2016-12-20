@@ -6,6 +6,7 @@ int check_arg(int argc, char* argv[])
 {
     if (argc != 2)
         return -1;
+    return 0;
 }
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
@@ -28,10 +29,10 @@ int main(int argc, char* argv[])
 
    int arg_status = check_arg(argc, argv);
    if (arg_status)
-       GOTO: ARG_ERR;
+       goto ARG_ERR;
 
    /* Open database */
-   rc = sqlite3_open("test.db", &db);
+   rc = sqlite3_open(argv[1], &db);
    if( rc )
    {
       printf("Can't open database: %s\n", sqlite3_errmsg(db));
@@ -39,7 +40,7 @@ int main(int argc, char* argv[])
    }
    else
    {
-      frintf("Opened database successfully\n");
+      printf("Opened database successfully\n");
    }
 
    /* Create SQL statement */
@@ -66,6 +67,6 @@ int main(int argc, char* argv[])
    return 0;
 
    ARG_ERR:
-      printf("Invalid argument, see -h for help");
+      printf("Invalid argument,\nusage: create_database db_name\n");
       return 1;
 }

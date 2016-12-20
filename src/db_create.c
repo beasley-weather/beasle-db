@@ -2,47 +2,70 @@
 #include <stdlib.h>
 #include <sqlite3.h>
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-   int i;
-   for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
-   return 0;
+char* readSchema(char* schema_file) {
+    FILE *fp = fopen(schema_file, "r");
+    int buf_len = 10;
+    int buf_cur = 0;
+    char *buf = malloc(buf_len);
+    char c;
+
+    if (fp == NULL || buf == NULL)
+        return NULL;    // failed to open file or allocate buffer
+
+    while ((c = fgetc(fp)) != EOF)
+    {
+        if (buf_cur >= buf_len-1)
+        {
+            buf_len += 10;
+            buf = realloc(buf, buf_len);
+            if (buf == NULL)
+                return NULL;    // failed to allocate buffer
+        }
+
+        buf[buf_cur++] = c;
+    }
+
+    buf[buf_cur] = '\0';
+
+    return buf;
 }
 
-int main(int argc, char* argv[])
+static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-   sqlite3 *db;
-   char *zErrMsg = 0;
-   int  rc;
-   char *sql;
+  int i;
+  for(i=0; i<argc; i++)
+  {
+     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+  return 0;
+}
 
-   /* Open database */
-   rc = sqlite3_open("test.db", &db);
-   if( rc ){
-      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-      return(0);
-   }else{
-      fprintf(stdout, "Opened database successfully\n");
-   }
+int _db_create(char* db_name, char* schema_file)
+{
+  sqlite3 *db;
+  char *zErrMsg = 0;
+  int  rc;
+  char *sql;
 
-   /* Create SQL statement */
-   sql = "CREATE TABLE COMPANY("  \
-         "ID INT PRIMARY KEY     NOT NULL," \
-         "NAME           TEXT    NOT NULL," \
-         "AGE            INT     NOT NULL," \
-         "ADDRESS        CHAR(50)," \
-         "SALARY         REAL );";
+  /* Open database */
+  rc = sqlite3_open(db_name, &db);
+  if( rc )
+    return -1;
 
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-   if( rc != SQLITE_OK ){
-   fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Table created successfully\n");
-   }
-   sqlite3_close(db);
-   return 0;
+  /* Create SQL statement */
+  sql = readSchema(schema_file);
+
+  /* Execute SQL statement */
+  rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+  if( rc != SQLITE_OK )
+    sqlite3_free(zErrMsg);
+    goto ERR;
+
+  sqlite3_close(db);
+  return 0;
+
+  ERR:
+    sqlite3_close(db);
+    return -2;
 }

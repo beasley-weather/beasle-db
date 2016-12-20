@@ -13,7 +13,7 @@ char *a_username = "alex",
      *c_pin = "6564";
 
 
-int test_setup()
+void test_setup()
 {
     a.username = a_username;
     a.pin = a_pin;
