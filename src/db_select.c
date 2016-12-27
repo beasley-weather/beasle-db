@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sqlite3.h>
 
+
 static int callback(void *data, int argc, char **argv, char **azColName){
    int i;
    fprintf(stderr, "%s: ", (const char*)data);

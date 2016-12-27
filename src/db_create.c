@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sqlite3.h>
+#include "db_create.h"
+
 
 char* readSchema(char* schema_file) {
     FILE *fp = fopen(schema_file, "r");
@@ -30,42 +29,45 @@ char* readSchema(char* schema_file) {
     return buf;
 }
 
+
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-  int i;
-  for(i=0; i<argc; i++)
-  {
-     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-  }
-  printf("\n");
-  return 0;
+    int i;
+    for(i=0; i<argc; i++)
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+
+    printf("\n");
+    return 0;
 }
+
 
 int _db_create(char* db_name, char* schema_file)
 {
-  sqlite3 *db;
-  char *zErrMsg = 0;
-  int  rc;
-  char *sql;
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int  rc;
+    char *sql;
 
-  /* Open database */
-  rc = sqlite3_open(db_name, &db);
-  if( rc )
+    /* Open database */
+    rc = sqlite3_open(db_name, &db);
+    if( rc )
     return -1;
 
-  /* Create SQL statement */
-  sql = readSchema(schema_file);
+    /* Create SQL statement */
+    sql = readSchema(schema_file);
 
-  /* Execute SQL statement */
-  rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-  if( rc != SQLITE_OK )
-    sqlite3_free(zErrMsg);
-    goto ERR;
+    /* Execute SQL statement */
+    rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+    if( rc != SQLITE_OK )
+    {
+        sqlite3_free(zErrMsg);
+        goto ERR;
+    }
 
-  sqlite3_close(db);
-  return 0;
-
-  ERR:
     sqlite3_close(db);
-    return -2;
+    return 0;
+
+    ERR:
+        sqlite3_close(db);
+        return -2;
 }

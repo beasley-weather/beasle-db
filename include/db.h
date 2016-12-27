@@ -1,8 +1,12 @@
 #pragma once
 #define DB_H
 
-struct db_user_entry
-{
+#include "db_create.h"
+//#include "db_insert.h"
+//#include "db_select.h"
+
+
+struct db_user_entry {
     char *username,
            *pin,
            *name_first,
@@ -11,8 +15,8 @@ struct db_user_entry
            home_lat;
 };
 
-struct db_weather_data_entry
-{
+
+struct db_weather_data_entry {
     char *username,
            *time;
     double data_long,
@@ -33,7 +37,11 @@ struct db_weather_data_entry
  */
 int db_create(char *db_name, char *schema_file);
 
-int db_insert_user_entry(char* db_name, struct db_user_entry[]);
-int db_insert_weather_data_entry(char* db_name, struct db_weather_data_entry[]);
 
-char* db_select(char* db_name, char* table, char* attributes)
+//int db_insert_user_entry(char* db_name, struct db_user_entry[]);
+
+
+//int db_insert_weather_data_entry(char* db_name, struct db_weather_data_entry[]);
+
+
+//char* db_select(char* db_name, char* table, char* attributes)

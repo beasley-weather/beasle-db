@@ -1,3 +1,3 @@
-- make targets should be .c files
-
-- input sanitization and sql injection
+[ ] clean up makefile
+[ ] input sanitization and sql injection
+        - necessary?

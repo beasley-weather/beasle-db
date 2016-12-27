@@ -1,35 +1,43 @@
-CC = gcc
-LIB_SQLITE = -l sqlite3
+CC						:= gcc
+CFLAGS					:= -Wall
+INC						:= -I include
+LIBS					:= -l sqlite3
 
 
-BIN			= bin/
-SRC			= src/
+BIN						:= bin/
+BUILD					:= build/
+DIRS					:= $(BIN) $(BUILD)
+SRC						:= src/
+TEST					:= test/
 
-DB_EXEC     = $(BIN)db
-#CREATE_EXEC = $(BIN)db_create
-CREATE_EXEC =
-INSERT_EXEC = $(BIN)db_insert
-SELECT_EXEC = $(BIN)db_select
-EXECS       = $(DB_EXEC) $(CREATE_EXEC) $(INSERT_EXEC) $(SELECT_EXEC)
+TEST_STRUCTS_SRC		:= $(TEST)test_structs.c
+TEST_STRUCTS			:= $(BIN)test_structs
 
-DB_C        = $(SRC)db.c
-CREATE_C    = $(SRC)db_create.c
-INSERT_C    = $(SRC)db_insert.c
-SELECT_C    = $(SRC)db_select.c
+TEST_DB_CREATE_SRC		:= $(TEST)test_db_create.c
+TEST_DB_CREATE_DEPS_SRC	:= $(SRC)db.c $(SRC)db_create.c
+TEST_DB_CREATE_DEPS_O	:= $(BUILD)db.o $(BUILD)db_create.o
+TEST_DB_CREATE			:= $(BIN)test_db_create
 
 
-all: bin_dir insert select
+all: $(DIRS) $(TEST_STRUCTS) $(TEST_DB_CREATE)
 
-bin_dir:
-	mkdir -p $(BIN)
+$(DIRS):
+	mkdir $@
 
-insert:
-	$(CC) $(LIB_SQLITE) $(INSERT_C) -o $(INSERT_EXEC)
+$(TEST_STRUCTS): $(TEST_STRUCTS_SRC)
+	$(CC) $(CFLAGS) $(INC) $^ -o $@
 
-select:
-	$(CC) $(LIB_SQLITE) $(SELECT_C) -o $(SELECT_EXEC)
+$(TEST_DB_CREATE): $(TEST_DB_CREATE_SRC) $(TEST_DB_CREATE_DEPS_SRC)
+	$(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $(TEST_DB_CREATE)
+
+# $(TEST_DB_CREATE): $(TEST_DB_CREATE_DEPS_O) $(TEST_DB_CREATE_DEPS_SRC)
+#     $(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $@
+#
+# $(BUILD)db.o: $(SRC)db.c
+#     $(CC) $(CFLAGS) $(INC) $(LIBS) $< -c -o $@
+#
+# $(BUILD)db_create.o: $(SRC)db_create.c
+#     $(CC) $(CFLAGS) $(INC) $(LIBS) $< -c -o $@
 
 clean:
-	rm -f $(EXECS)
-	rm -f $(BIN)*.db
-	rmdir -p $(BIN)
+	rm -rf $(BUILD)*
