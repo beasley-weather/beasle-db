@@ -2,8 +2,9 @@
 #define DB_H
 
 #include "db_create.h"
-//#include "db_insert.h"
-//#include "db_select.h"
+
+
+#define NULL_NUM -987654321
 
 
 struct db_user_entry {
@@ -14,7 +15,6 @@ struct db_user_entry {
     double home_long,
            home_lat;
 };
-
 
 struct db_weather_data_entry {
     char *username,
@@ -38,10 +38,14 @@ struct db_weather_data_entry {
 int db_create(char *db_name, char *schema_file);
 
 
-//int db_insert_user_entry(char* db_name, struct db_user_entry[]);
+void db_init_user_entry(struct db_user_entry *entry);
+
+void db_init_weather_data_entry(struct db_weather_data_entry *entry);
 
 
-//int db_insert_weather_data_entry(char* db_name, struct db_weather_data_entry[]);
+//int db_insert_user_entry(char* db_name, db_user_entry entry[]);
+
+//int db_insert_weather_data_entry(char* db_name, db_weather_data_entry entry[]);
 
 
 //char* db_select(char* db_name, char* table, char* attributes)

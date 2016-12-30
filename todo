@@ -1,3 +1,5 @@
 [ ] clean up makefile
 [ ] input sanitization and sql injection
         - necessary?
+[ ] single function sql execution function
+        - sql_exec(char *sql_query)

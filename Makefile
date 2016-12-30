@@ -10,6 +10,8 @@ DIRS					:= $(BIN) $(BUILD)
 SRC						:= src/
 TEST					:= test/
 
+DB_SRC					:= $(SRC)db.c
+
 TEST_SCHEMA				:= $(TEST)test_schema.sql
 
 TEST_STRUCTS_SRC		:= $(TEST)test_structs.c
@@ -26,8 +28,8 @@ all: $(DIRS) $(TEST_STRUCTS) $(TEST_DB_CREATE) CP_TEST_SCHEMA
 $(DIRS):
 	mkdir $@
 
-$(TEST_STRUCTS): $(TEST_STRUCTS_SRC)
-	$(CC) $(CFLAGS) $(INC) $^ -o $@
+$(TEST_STRUCTS): $(TEST_STRUCTS_SRC) src/db.c src/db_create.c
+	$(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $@
 
 $(TEST_DB_CREATE): $(TEST_DB_CREATE_SRC) $(TEST_DB_CREATE_DEPS_SRC)
 	$(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $(TEST_DB_CREATE)

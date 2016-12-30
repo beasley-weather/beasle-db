@@ -1,8 +1,11 @@
 #include <assert.h>
 #include <stdio.h>
-#include "../include/db.h"
+#include "db.h"
+
 
 struct db_user_entry a, b, c;
+
+struct db_user_entry d;
 
 char *a_username = "alex",
      *b_username = "bob",
@@ -15,6 +18,8 @@ char *a_username = "alex",
 
 void test_setup()
 {
+    db_init_user_entry(&d);
+
     a.username = a_username;
     a.pin = a_pin;
 
@@ -33,6 +38,9 @@ int test()
     assert(b.pin == b_pin);
     assert(c.username == c_username);
     assert(c.pin == c_pin);
+
+    assert(d.username == NULL);
+    assert(d.home_long == NULL_NUM);
     return 0;
 }
 
