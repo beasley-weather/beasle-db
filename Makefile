@@ -1,54 +1,24 @@
-CC						:= gcc
-CFLAGS					:= -Wall
-INC						:= -I include
-LIBS					:= -l sqlite3
+CC		  := gcc
+CFLAGS	  := -Wall
+INC		  := -I include
+LIBS	  := -l sqlite3
+TEST_LIBS := -l criterion
 
 
-BIN						:= bin/
-BUILD					:= build/
-DIRS					:= $(BIN) $(BUILD)
-SRC						:= src/
-TEST					:= test/
-
-DB_SRC					:= $(SRC)db.c
-
-TEST_SCHEMA				:= $(TEST)test_schema.sql
-
-TEST_STRUCTS_SRC		:= $(TEST)test_structs.c
-TEST_STRUCTS			:= $(BIN)test_structs
-
-TEST_DB_CREATE_SRC		:= $(TEST)test_db_create.c
-TEST_DB_CREATE_DEPS_SRC	:= $(SRC)db.c $(SRC)db_create.c
-TEST_DB_CREATE_DEPS_O	:= $(BUILD)db.o $(BUILD)db_create.o
-TEST_DB_CREATE			:= $(BIN)test_db_create
+DIRS := build bin
 
 
-all: $(DIRS) $(TEST_STRUCTS) $(TEST_DB_CREATE) CP_TEST_SCHEMA
+all: $(DIRS) bin/test_structs
 
 $(DIRS):
-	mkdir $@
+	mkdir -p $@
 
-$(TEST_STRUCTS): $(TEST_STRUCTS_SRC) src/db.c src/db_create.c
-	$(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $@
+bin/test_structs: test/test_structs.c src/db.c src/db_create.c
+	$(CC) $(FLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
 
-$(TEST_DB_CREATE): $(TEST_DB_CREATE_SRC) $(TEST_DB_CREATE_DEPS_SRC)
-	$(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $(TEST_DB_CREATE)
-
-CP_TEST_SCHEMA: $(TEST_SCHEMA)
-	cp $< $(BIN)test_schema.sql
-
-# $(TEST_DB_CREATE): $(TEST_DB_CREATE_DEPS_O) $(TEST_DB_CREATE_DEPS_SRC)
-#     $(CC) $(CFLAGS) $(INC) $(LIBS) $^ -o $@
-#
-# $(BUILD)db.o: $(SRC)db.c
-#     $(CC) $(CFLAGS) $(INC) $(LIBS) $< -c -o $@
-#
-# $(BUILD)db_create.o: $(SRC)db_create.c
-#     $(CC) $(CFLAGS) $(INC) $(LIBS) $< -c -o $@
 
 clean_all: clean
-	rm -rf $(BIN)*
+	rm -rf bin/*
 
 clean:
-	rm -rf $(BUILD)*
-
+	rm -rf build*
