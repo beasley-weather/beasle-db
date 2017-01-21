@@ -3,5 +3,6 @@
 cd bin
 
 for i in `ls | grep -v "\."`; do
-    ./$i
+    ./$i $1
+    echo
 done

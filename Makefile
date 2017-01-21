@@ -8,20 +8,16 @@ TEST_LIBS := -l criterion
 DIRS := bin
 
 
-all: $(DIRS) bin/test_schema.sql bin/test_structs bin/test_db_create
+all: bin/test_structs bin/test_db_create bin/test_db_insert
 
-$(DIRS):
-	mkdir -p $@
+bin/test_structs: test/test_structs.c src/db.c
+	$(CC) $(CFLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
 
-bin/test_schema.sql: test/test_schema.sql
-	cp $< $@
+bin/test_db_create: test/test_db_create.c src/db.c
+	$(CC) $(CFLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
 
-bin/test_structs: test/test_structs.c src/db.c src/db_create.c
-	$(CC) $(FLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
-
-bin/test_db_create: test/test_db_create.c src/db.c src/db_create.c
-	$(CC) $(FLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
-
+bin/test_db_insert: test/test_db_insert.c src/db.c
+	$(CC) $(CFLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
 
 clean_all: clean
 	rm -rf bin/*
