@@ -5,13 +5,11 @@ LIBS	  := -l sqlite3
 TEST_LIBS := -l criterion
 
 
-DIRS := bin
+all: dirs bin/test_structs bin/test_db_create bin/test_db_insert
 
-
-all: bin bin/test_structs bin/test_db_create bin/test_db_insert
-
-bin:
-	mkdir $@
+dirs:
+	mkdir -p bin
+	cp test/test_schema.sql bin/test_schema.sql
 
 bin/test_structs: test/test_structs.c src/db.c
 	$(CC) $(CFLAGS) $(INC) $(LIBS) $(TEST_LIBS) $^ -o $@
