@@ -12,6 +12,7 @@
 #define NULL_STRING "null"
 
 /*
+ * FIXME
  * hardcoded, should a different value be needed, it maybe useful to change
  * code to allow dynamic reallocation
  */
@@ -39,6 +40,7 @@ struct db_weather_data_entry {
            wind;
 };
 
+
 /*
  * Return codes:
  *    0     Success
@@ -47,23 +49,23 @@ struct db_weather_data_entry {
  */
 int db_create(char *db_name, char *schema_file);
 
-/*
- * Error return codes:
- *   -1     Failed to open database
- *   -2     Failed to execute schema
- */
-int _db_create(char *db_name, char *schema_file);
-
-
 void db_init_user_entry(struct db_user_entry *entry);
 
 void db_init_weather_data_entry(struct db_weather_data_entry *entry);
 
+
+/* DB CREATE ----------------------------------------------------------------*/
+
+int _db_create(char *db_name, char *schema_file);
+
+char* _read_schema(char* buf, char* schema_file);
+
+
 /* DB INSERT ----------------------------------------------------------------*/
 
-void db_insert_user_entry(char *db_name, struct db_user_entry *entry);
+int db_insert_user_entry(char *db_name, struct db_user_entry *entry);
 
-void db_insert_weather_data_entry(char* db_name,
+int db_insert_weather_data_entry(char* db_name,
                                    struct db_weather_data_entry *entry);
 
 void _db_gen_insert_query_user(char *query,
@@ -72,6 +74,14 @@ void _db_gen_insert_query_user(char *query,
 void _db_gen_insert_query_weather_data(char *query,
                                        struct db_weather_data_entry *entry);
 
+
 /* DB SELECT ----------------------------------------------------------------*/
 
-//char* db_select(char* db_name, char* table, char* attributes)
+char* db_select(char* db_name, char* table, char* attributes);
+
+
+/* SQL UTILS ----------------------------------------------------------------*/
+
+int exec_sql(char *db_name, char *sql);
+
+int _callback(void *NotUsed, int argc, char **argv, char **azColName);

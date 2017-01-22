@@ -12,7 +12,7 @@ char *test_db = "test.db",
 FILE *fp;
 
 
-void remove_existing_db();
+void remove_db();
 
 
 void setup_db_create() {
@@ -27,7 +27,7 @@ void setup_db_create() {
 
 
 void teardown_db_create() {
-    remove_existing_db();
+    remove_db();
 }
 
 
@@ -38,6 +38,6 @@ Test(test_db_create, test_db_create, .init=setup_db_create,
 }
 
 
-void remove_existing_db() {
+void remove_db() {
     unlink(test_db);
 }
