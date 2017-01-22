@@ -1,5 +1,5 @@
-[ ] Makefile should have variabels for dependencies and other things
+[ ] Makefile should have variables for dependencies and other things
 [ ] input sanitization and sql injection
         - necessary?
-[ ] single function sql execution function
+[x] single function sql execution function
         - sql_exec(char *sql_query)
