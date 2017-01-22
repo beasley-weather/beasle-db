@@ -3,7 +3,9 @@
 
 #include <criterion/criterion.h>
 
-#include "db.h"
+#include "db_data.h"
+#include "db_create.h"
+#include "db_insert.h"
 
 
 char *test_db_user = "test_user.db",
@@ -115,13 +117,13 @@ void setup_weather_data_entry_full()
 
 void setup_database_and_user_query()
 {
-    db_create(test_db_user, test_schema);
+    _db_create(test_db_user, test_schema);
     setup_user_entry_full();
 }
 
 void setup_database_and_weather_data_query()
 {
-    db_create(test_db_weather_data, test_schema);
+    _db_create(test_db_weather_data, test_schema);
     setup_weather_data_entry_full();
 }
 
@@ -201,7 +203,7 @@ Test(test_db_insert, test_insert_user_entry,
      .init=setup_database_and_user_query,
      .fini=teardown_user_database_and_query)
 {
-    int rc = db_insert_user_entry(test_db_user, &user);
+    int rc = _db_insert_user_entry(test_db_user, &user);
     cr_assert(rc == 0);
 }
 
@@ -209,7 +211,7 @@ Test(test_db_insert, test_insert_weather_data_entry,
      .init=setup_database_and_weather_data_query,
      .fini=teardown_weather_data_database_and_query)
 {
-    int rc = db_insert_weather_data_entry(test_db_weather_data, &weather);
+    int rc = _db_insert_weather_data_entry(test_db_weather_data, &weather);
     cr_assert(rc == 0);
 }
 

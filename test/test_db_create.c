@@ -3,7 +3,7 @@
 
 #include <criterion/criterion.h>
 
-#include "db.h"
+#include "db_create.h"
 
 
 char *test_db = "test.db",
@@ -38,7 +38,7 @@ void teardown_db_create()
 Test(test_db_create, test_db_create, .init=setup_db_create,
         .fini=teardown_db_create)
 {
-    int rc = db_create(test_db, test_schema);
+    int rc = _db_create(test_db, test_schema);
     cr_assert(rc == 0);
 }
 

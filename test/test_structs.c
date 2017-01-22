@@ -2,7 +2,8 @@
 
 #include <criterion/criterion.h>
 
-#include "db.h"
+#include "db_consts.h"
+#include "db_data.h"
 
 
 struct db_user_entry user, user_inited;
