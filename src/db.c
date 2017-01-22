@@ -1,13 +1,15 @@
 #include "db.h"
 
 
-int db_create(char *db_name, char *schema_file) {
+int db_create(char *db_name, char *schema_file)
+{
     int rc = _db_create(db_name, schema_file);
 
     return rc;
 }
 
-void db_init_user_entry(struct db_user_entry *entry) {
+void db_init_user_entry(struct db_user_entry *entry)
+{
     entry->username = NULL;
     entry->pin = NULL;
     entry->name_first = NULL;
@@ -16,7 +18,8 @@ void db_init_user_entry(struct db_user_entry *entry) {
     entry->home_lat = NULL_DOUBLE;
 }
 
-void db_init_weather_data_entry(struct db_weather_data_entry *entry) {
+void db_init_weather_data_entry(struct db_weather_data_entry *entry)
+{
     entry->username = NULL;
     entry->time = NULL;
     entry->data_long = NULL_INT;
@@ -45,7 +48,8 @@ int _db_create(char* db_name, char* schema_file)
     return rc;
 }
 
-char* _read_schema(char* buf, char* schema_file) {
+char* _read_schema(char* buf, char* schema_file)
+{
     FILE *fp = fopen(schema_file, "r");
     int buf_len = 10;
     int buf_cur = 0;
@@ -164,12 +168,16 @@ void _db_gen_insert_query_weather_data(char *query,
 
 /* SQL UTILS ----------------------------------------------------------------*/
 
-char* db_select(char* db_name, char* table, char* attributes);
+char* db_select(char* db_name, char* table, char* attributes)
+{
+    return NULL;
+}
 
 
 /* SQL UTILS ----------------------------------------------------------------*/
 
-int exec_sql(char *db_name, char *sql) {
+int exec_sql(char *db_name, char *sql)
+{
     sqlite3 *db;
     char *zErrMsg = 0;
     int  rc;

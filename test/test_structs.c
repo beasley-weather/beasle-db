@@ -25,7 +25,8 @@ double test_home_long = 123.456,
        test_wind = 44.85;
 
 
-void setup_user_struct_assigned() {
+void setup_user_struct_assigned()
+{
     user.username = test_username;
     user.pin = test_pin;
     user.name_first = test_name_first;
@@ -35,12 +36,14 @@ void setup_user_struct_assigned() {
 }
 
 
-void setup_user_struct_init() {
+void setup_user_struct_init()
+{
     db_init_user_entry(&user_inited);
 }
 
 
-void setup_weather_data_struct_assigned() {
+void setup_weather_data_struct_assigned()
+{
     weather.username = test_username;
     weather.time = test_time;
     weather.data_long = test_data_long;
@@ -53,12 +56,14 @@ void setup_weather_data_struct_assigned() {
 }
 
 
-void setup_weather_data_struct_inited() {
+void setup_weather_data_struct_inited()
+{
     db_init_weather_data_entry(&weather_inited);
 }
 
 
-Test(test_structs, test_user_struct_assigned, .init=setup_user_struct_assigned) {
+Test(test_structs, test_user_struct_assigned, .init=setup_user_struct_assigned)
+{
     cr_expect_str_eq(user.username, test_username,
             "Username should be assigned to struct.\n%s == %s",
             user.username, test_username);
@@ -83,7 +88,8 @@ Test(test_structs, test_user_struct_assigned, .init=setup_user_struct_assigned) 
 }
 
 
-Test(test_structs, test_user_struct_init, .init=setup_user_struct_init) {
+Test(test_structs, test_user_struct_init, .init=setup_user_struct_init)
+{
     cr_expect_null(user_inited.username, "Username should be NULL.");
 
     cr_expect_null(user_inited.pin, "Pin should be NULL.");
@@ -100,7 +106,9 @@ Test(test_structs, test_user_struct_init, .init=setup_user_struct_init) {
 }
 
 
-Test(test_structs, test_weather_data_struct_assigned, .init=setup_weather_data_struct_assigned) {
+Test(test_structs, test_weather_data_struct_assigned,
+     .init=setup_weather_data_struct_assigned)
+{
     cr_expect_str_eq(weather.username, test_username,
             "Username should be assigned to struct.");
 
@@ -130,7 +138,9 @@ Test(test_structs, test_weather_data_struct_assigned, .init=setup_weather_data_s
 }
 
 
-Test(test_structs, test_weather_data_struct_init, .init=setup_weather_data_struct_inited) {
+Test(test_structs, test_weather_data_struct_init,
+     .init=setup_weather_data_struct_inited)
+{
     cr_expect_null(weather_inited.username, "Username should be NULL.");
 
     cr_expect_null(weather_inited.time, "Time should be NULL.");

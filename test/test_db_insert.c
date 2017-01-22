@@ -37,7 +37,8 @@ double test_home_long = 123.456,
 void remove_db();
 
 
-void setup_user_entry_inited() {
+void setup_user_entry_inited()
+{
     sql = malloc(256);
 
     db_init_user_entry(&user);
@@ -45,7 +46,8 @@ void setup_user_entry_inited() {
     _db_gen_insert_query_user(sql, &user);
 }
 
-void setup_user_entry_mixed() {
+void setup_user_entry_mixed()
+{
     sql = malloc(256);
 
     db_init_user_entry(&user);
@@ -56,7 +58,8 @@ void setup_user_entry_mixed() {
     _db_gen_insert_query_user(sql, &user);
 }
 
-void setup_user_entry_full() {
+void setup_user_entry_full()
+{
     sql = malloc(256);
 
     user.username = test_username;
@@ -70,7 +73,8 @@ void setup_user_entry_full() {
 }
 
 
-void setup_weather_data_entry_inited() {
+void setup_weather_data_entry_inited()
+{
     sql = malloc(256);
 
     db_init_weather_data_entry(&weather);
@@ -78,7 +82,8 @@ void setup_weather_data_entry_inited() {
     _db_gen_insert_query_weather_data(sql, &weather);
 }
 
-void setup_weather_data_entry_mixed() {
+void setup_weather_data_entry_mixed()
+{
     sql = malloc(256);
 
     db_init_weather_data_entry(&weather);
@@ -90,7 +95,8 @@ void setup_weather_data_entry_mixed() {
     _db_gen_insert_query_weather_data(sql, &weather);
 }
 
-void setup_weather_data_entry_full() {
+void setup_weather_data_entry_full()
+{
     sql = malloc(256);
 
     weather.username = test_username;
@@ -107,28 +113,33 @@ void setup_weather_data_entry_full() {
 }
 
 
-void setup_database_and_user_query() {
+void setup_database_and_user_query()
+{
     db_create(test_db_user, test_schema);
     setup_user_entry_full();
 }
 
-void setup_database_and_weather_data_query() {
+void setup_database_and_weather_data_query()
+{
     db_create(test_db_weather_data, test_schema);
     setup_weather_data_entry_full();
 }
 
 
-void teardown_query() {
+void teardown_query()
+{
     free(sql);
 }
 
 
-void teardown_user_database_and_query() {
+void teardown_user_database_and_query()
+{
     remove_db(test_db_user);
     teardown_query();
 }
 
-void teardown_weather_data_database_and_query() {
+void teardown_weather_data_database_and_query()
+{
     remove_db(test_db_weather_data);
     teardown_query();
 }
@@ -136,14 +147,16 @@ void teardown_weather_data_database_and_query() {
 
 Test(test_db_query_gen, test_query_gen_null_user,
      .init=setup_user_entry_inited,
-     .fini=teardown_query) {
+     .fini=teardown_query)
+{
     cr_assert_str_eq(sql,
             "INSERT INTO Users VALUES (null, null, null, null, null, null);");
 }
 
 Test(test_db_query_gen, test_query_gen_mixed_user,
      .init=setup_user_entry_mixed,
-     .fini=teardown_query) {
+     .fini=teardown_query)
+{
     cr_assert_str_eq(sql,
             "INSERT INTO Users VALUES (null, '123abc', null, 'Doe', null,"
             " 23.450000);");
@@ -151,7 +164,8 @@ Test(test_db_query_gen, test_query_gen_mixed_user,
 
 Test(test_db_query_gen, test_query_gen_full_user,
      .init=setup_user_entry_full,
-     .fini=teardown_query) {
+     .fini=teardown_query)
+{
     cr_assert_str_eq(sql,
             "INSERT INTO Users VALUES ('alice', '123abc', 'Alice', 'Doe',"
             " 123.456000, 23.450000);");
@@ -159,20 +173,23 @@ Test(test_db_query_gen, test_query_gen_full_user,
 
 
 Test(test_db_query_gen, test_query_gen_null_weather_data,
-     .init=setup_weather_data_entry_inited, .fini=teardown_query) {
+     .init=setup_weather_data_entry_inited, .fini=teardown_query)
+{
     cr_assert_str_eq(sql,
             "INSERT INTO Weather_Data VALUES (null, null, null, null, null,"
             " null, null, null, null);");
 }
 
 Test(test_db_query_gen, test_insert_query_gen_mixed_weather_data,
-     .init=setup_weather_data_entry_mixed, .fini=teardown_query) {
+     .init=setup_weather_data_entry_mixed, .fini=teardown_query)
+{
     cr_assert_str_eq(sql, "INSERT INTO Weather_Data VALUES ('alice', null,"
             " 32.430000, null, null, 323.440000, 12.300000, null, null);");
 }
 
 Test(test_db_query_gen, test_query_gen_full_weather_data,
-     .init=setup_weather_data_entry_full, .fini=teardown_query) {
+     .init=setup_weather_data_entry_full, .fini=teardown_query)
+{
     cr_assert_str_eq(sql,
             "INSERT INTO Weather_Data VALUES ('alice', '2009-11-12',"
             " 32.430000, 43.200000, 11.220000, 323.440000, 12.300000,"
