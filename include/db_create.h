@@ -1,10 +1,11 @@
 #pragma once
 #define DB_CREATE_H
 
-#include "db_utils.h"
 
 #include "stdio.h"
 #include "stdlib.h"
+
+#include "db_utils.h"
 
 
 int _db_create(char *db_name, char *schema_file);

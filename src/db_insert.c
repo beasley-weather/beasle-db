@@ -42,6 +42,7 @@ void _db_gen_insert_query_user(char *query, struct db_user_entry *entry)
     sprintf(home_long, "%f", entry->home_long);
     sprintf(home_lat, "%f", entry->home_lat);
 
+    // FIXME Doing floating point comparisons (error prone?)
     sprintf(query, "INSERT INTO Users VALUES (%s, %s, %s, %s, %s, %s);",
             (entry->username == NULL) ? NULL_STRING : username,
             (entry->pin == NULL) ? NULL_STRING : pin,
@@ -75,6 +76,7 @@ void _db_gen_insert_query_weather_data(char *query,
     sprintf(humidity, "%f", entry->humidity);
     sprintf(wind, "%f", entry->wind);
 
+    // FIXME Doing floating point comparisons (error prone?)
     sprintf(query, "INSERT INTO Weather_Data VALUES (%s, %s, %s, %s, %s, %s,"
                    " %s, %s, %s);",
             (entry->username == NULL) ? NULL_STRING : username,

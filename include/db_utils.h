@@ -1,6 +1,7 @@
 #pragma once
 #define DB_UTILS_H
 
+
 #include <sqlite3.h>
 #include <stdio.h>
 

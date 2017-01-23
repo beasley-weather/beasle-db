@@ -16,7 +16,7 @@ int db_insert_user_entry(char *db_name, struct db_user_entry *entry)
 }
 
 int db_insert_weather_data_entry(char *db_name,
-                                  struct db_weather_data_entry *entry)
+                                 struct db_weather_data_entry *entry)
 {
     int rc = _db_insert(db_name, entry);
 

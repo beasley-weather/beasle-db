@@ -5,9 +5,9 @@
 struct db_user_entry
 {
     char *username,
-           *pin,
-           *name_first,
-           *name_last;
+         *pin,
+         *name_first,
+         *name_last;
     double home_long,
            home_lat;
 };
@@ -15,7 +15,7 @@ struct db_user_entry
 struct db_weather_data_entry
 {
     char *username,
-           *time;
+         *time;
     double data_long,
            data_lat,
            noise,
